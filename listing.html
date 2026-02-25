@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Property Details | God's Land</title><link rel="stylesheet" href="css/themes.css"><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<header class="site-header"><div class="container nav-row"><a href="index.html" class="brand">God's Land</a><nav class="nav-links"><a data-nav href="index.html">Home</a><a data-nav href="listings.html">Listings</a><a data-nav href="locations.html">Locations</a><a data-nav href="services.html">Services</a><a data-nav href="about.html">About</a><a data-nav href="contact.html">Contact</a></nav><div class="utility"><button data-theme-toggle>◐</button><a class="btn btn-outline" href="https://wa.me/2348000000000" target="_blank">WhatsApp</a></div></div></header>
+<main class="section"><div class="container"><div id="listing-wrap"></div><h2>Similar Listings</h2><div id="similar" class="grid"></div></div></main>
+<footer><div class="container">© <span id="yr"></span> God's Land</div></footer>
+<script src="data/listings.js"></script><script src="js/theme.js"></script><script src="js/whatsapp.js"></script><script src="js/app.js"></script>
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const id = new URLSearchParams(location.search).get('id');
+  const item = GODS_LAND_LISTINGS.find(x => x.id === id) || GODS_LAND_LISTINGS[0];
+  document.title = `${item.title} | God's Land`;
+  document.getElementById('listing-wrap').innerHTML = `<article class='card' style='padding:1rem'><img style='width:100%;max-height:360px;object-fit:cover;border-radius:.6rem' src='${item.images[0]}' alt='${item.title}'><h1>${item.title}</h1><p class='muted'>ID: ${item.id} • ${item.state}, ${item.lga}</p><p>${item.description}</p><p><strong>Price:</strong> ₦${(item.price||0).toLocaleString()}</p><p><strong>Documents:</strong> ${(item.docs||[]).join(', ')}</p><div class='cta-row'><a class='btn' target='_blank' href='${buildWhatsAppLink(item)}'>Chat on WhatsApp</a><a class='btn btn-outline' target='_blank' href='${buildWhatsAppLink(item,"inspection")}'>Book Inspection</a></div></article>`;
+  document.getElementById('similar').innerHTML = GODS_LAND_LISTINGS.filter(x => x.id !== item.id && x.type === item.type).slice(0,3).map(x => `<article class='property-card card'><img src='${x.images[0]}' alt='${x.title}'><div class='body'><strong>${x.title}</strong><p class='muted'>${x.state}, ${x.lga}</p><a class='btn btn-outline' href='listing.html?id=${x.id}'>View</a></div></article>`).join('');
+</script>
+</body></html>
